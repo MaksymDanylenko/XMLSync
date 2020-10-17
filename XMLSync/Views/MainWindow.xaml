@@ -1,0 +1,200 @@
+﻿<Window x:Class="XMLSync.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XMLSync.ViewModels"
+        mc:Ignorable="d"
+        Title="XML-Sync | Maksym Danylenko" Height="640" Width="1280" MinHeight="480" MinWidth="840">
+    <Window.DataContext>
+        <local:MainVM/>
+    </Window.DataContext>
+    
+    <!-- Структура окна -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!-- Работа с "левым" файлом -->
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Margin="10 17 0 0">Левый файл:</TextBlock>
+                
+                <!-- Путь к "левому" файлу -->
+                <TextBox
+                    Grid.Column="1" Grid.Row="0" MaxLines="1"
+                    Margin="10 10 10 10" x:Name="LeftTextBox"
+                    Text="{Binding LeftDocumentPath, Mode=OneWay}"
+                    ToolTip="Путь к левому файлу">
+                </TextBox>
+
+                <!-- /Путь к "левому" файлу -->
+
+                <!-- Открыть "левый" файл -->
+                <Button Grid.Column="2" Grid.Row="0" Margin="10 10 10 10" Content="->"
+                        Command="{Binding LoadLeftCommand}"
+                        CommandParameter="{Binding ElementName=LeftTextBox, Path=Text}"
+                        ToolTip="Открыть">
+                </Button>
+                <!-- /Открыть "левый" файл -->
+
+                <!-- Открыть "левый" файл в проводнике -->
+                <Button Grid.Column="3" Grid.Row="0" Margin="10 10 10 10" Content="..."
+                        Command="{Binding DialogLeftCommand}"
+                        ToolTip="Открыть в проводнике">
+                </Button>
+                <!-- /Открыть "левый" файл в проводнике -->
+                
+            </Grid>
+            <!-- /Работа с "левым" файлом -->
+
+            <!-- Справка -->
+            <Button Grid.Column="1" Grid.Row="0" Margin="10 10 10 10" Content="?"
+                    Command="{Binding AboutCommand}"
+                    ToolTip="Справка">
+            </Button>
+            <!-- /Справка -->
+            
+            <!-- Работа с "правым" файлом -->
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Margin="0 17 0 0">Правый файл:</TextBlock>
+
+                <!-- Путь к "правому" файлу -->
+                <TextBox Grid.Column="1" Grid.Row="0" MaxLines="1"
+                         Margin="10 10 10 10" x:Name="RidhtTextBox"
+                         Text="{Binding RightDocumentPath, Mode=OneWay}"
+                         ToolTip="Путь к правому файлу">
+                </TextBox>
+                <!-- /Путь к "правому" файлу -->
+
+                <!-- Открыть "правый" файл -->
+                <Button Grid.Column="2" Grid.Row="0" Margin="10 10 10 10" Content="->"
+                        Command="{Binding LoadRightCommand}"
+                        CommandParameter="{Binding ElementName=RidhtTextBox, Path=Text}"
+                        ToolTip="Открыть">
+                </Button>
+                <!-- /Открыть "правый" файл -->
+
+                <!-- Открыть "правый" файл в проводнике -->
+                <Button Grid.Column="3" Grid.Row="0" Margin="10 10 10 10" Content="..."
+                        Command="{Binding DialogRightCommand}"
+                        ToolTip="Открыть в проводнике">
+                </Button>
+                <!-- /Открыть "правый" файл в проводнике -->
+                
+            </Grid>
+            <!-- /Работа с "правым" файлом -->
+            
+        </Grid>
+        <!-- /Верхняя панель -->
+
+        <!-- Окно отображения XML-файлов -->
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <!-- "Левый" файл -->
+                <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="0" Grid.Row="0"
+                        Margin="5 5 5 5" Padding="5 5 5 5" Background="WhiteSmoke">
+                    <TextBlock
+                           Text="{Binding LeftDocument.Elements, Mode=OneWay}"
+                           FontFamily="Lucida Console">
+                    </TextBlock>
+                </Border>
+                <!-- /"Левый" файл -->
+
+                <!-- Сравнение файлов -->
+                <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="1" Grid.Row="0"
+                        Margin="5 5 5 5" Padding="14 5 5 5" Background="WhiteSmoke">
+                    <TextBlock Text="{Binding ComparingRepresent, Mode=OneWay}"
+                           FontFamily="Lucida Console">
+                    </TextBlock>
+                </Border>
+                <!-- /Сравнение файлов -->
+
+                <!-- "Правый" файл -->
+                <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="2" Grid.Row="0"
+                        Margin="5 5 5 5" Padding="5 5 5 5" Background="WhiteSmoke">
+                    <TextBlock Text="{Binding RightDocument.Elements, Mode=OneWay}"
+                           FontFamily="Lucida Console">
+                    </TextBlock>
+                </Border>
+                <!-- /"Правый" файл -->
+                
+            </Grid>
+        </ScrollViewer>
+        <!-- /Окно отображения XML-файлов -->
+
+        <!-- Нижняя панель -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <!-- Синхронизировать "левый" файл с "правым" -->
+            <Button Grid.Column="0" Grid.Row="0" Margin="10 10 10 10" Width="250"
+                    Content="Синхронизировать с правым файлом"
+                    Command="{Binding LeftToRightCommand}"
+                    ToolTip="Синхронизировать левый файл с правым">
+            </Button>
+            <!-- /Синхронизировать "левый" файл с "правым" -->
+
+            <!-- Синхронизировать "правый" файл с "левым" -->
+            <Button Grid.Column="2" Grid.Row="0" Margin="10 10 10 10" Width="250"
+                    Content="Синхронизировать с левым файлом"
+                    Command="{Binding RightToLeftCommand}"
+                    ToolTip="Синхронизировать правый файл с левым">
+            </Button>
+            <!-- /Синхронизировать "правый" файл с "левым" -->
+            
+        </Grid>
+        <!-- /Нижняя панель -->
+    </Grid>
+    <!-- /Структура окна -->
+    
+</Window>
